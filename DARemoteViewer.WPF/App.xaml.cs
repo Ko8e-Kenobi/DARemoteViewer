@@ -23,10 +23,10 @@ namespace DARemoteViewer.WPF
             configCommands.Add(new CreateConfigService());
             configCommands.Add(new UpdateConfigService());
 
-            var queries = new LoadConfigService();
+            var configQueries = new ObservableCollection<IConfigQuery<Config>>();
+            configQueries.Add(new LoadConfigService());
 
-
-            var viewModel = new MainWindowViewModel(queries, configCommands);
+            var viewModel = new MainWindowViewModel(configQueries, configCommands);
             Window window = new MainWindow(viewModel);
             window.Show();
         }

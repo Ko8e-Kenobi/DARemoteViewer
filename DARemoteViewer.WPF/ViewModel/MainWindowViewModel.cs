@@ -25,18 +25,24 @@ namespace DARemoteViewer.WPF.ViewModel
         private IConfigQuery<Config> queries;
         private CreateConfigService CreateConfigService;
         private UpdateConfigService UpdateConfigService;
-        private UpdateConfig UpdateConfig;
-        private CreateConfig CreateConfig;
+        private LoadConfigService LoadConfigService;
         string defaultConfigFileName = $"{Directory.GetCurrentDirectory()}\\DefaultConfig.xml";
 
 
-        public MainWindowViewModel(IConfigQuery<Config> queries, ObservableCollection<IService<ConfigCommandBase>> services) //ObservableCollection<ICommandService<ICommandBase>> commandServices)
+        public MainWindowViewModel(ObservableCollection<IConfigQuery<Config>> queries, ObservableCollection<IService<ConfigCommandBase>> services) //ObservableCollection<ICommandService<ICommandBase>> commandServices)
         {
-            this.queries = queries;
-            defaultConfigFileName = StaticMethods.GetAppSettings("ActiveConfigFileName");
-            ActiveConfig = this.queries.Execute(defaultConfigFileName);
-
-            if (services != null) 
+            if (queries is not null)
+            {
+                foreach (var query in queries)
+                {
+                    if (typeof(LoadConfigService) == query.GetType())
+                    {
+                        LoadConfigService = (LoadConfigService)query;
+                    }
+                    else { throw new Exception("Unknown Query"); }
+                }
+            }
+            if (services  is not null) 
             {
                 foreach (var service in services)
                 {
@@ -55,6 +61,10 @@ namespace DARemoteViewer.WPF.ViewModel
             {
                 throw new Exception("No services passed to constructor");
             }
+
+            defaultConfigFileName = StaticMethods.GetAppSettings("ActiveConfigFileName");
+
+            ActiveConfig = LoadConfigService.Execute(defaultConfigFileName);
 
             //CreateConfigService.Execute(new CreateConfig(defaultConfigFileName, ActiveConfig));
             //ActiveConfig.connections.Add(new DAConnection { Name = "New connection", Id = ActiveConfig.connections.Count() + 1});
