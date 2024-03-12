@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="App.config" />
+    <None Remove="Image\minusicon.png" />
+    <None Remove="Image\minusicon_25p.png" />
+    <None Remove="Image\plusicon.png" />
+    <None Remove="Image\plusicon_25p.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DARemoteViewer.Domain\DARemoteViewer.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Image\minusicon_25p.png" />
+    <Resource Include="Image\plusicon_25p.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
+</Project>
