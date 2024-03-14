@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DARemoteViewer.Domain.Services
 {
-    public interface IConfigCommand
+    public interface ICommandBase
     {
         public void Execute();
     }

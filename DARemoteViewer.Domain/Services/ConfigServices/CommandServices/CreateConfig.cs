@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace DARemoteViewer.Domain.Services.ConfigServices.CommandServices
 {
-    public class CreateConfig : ConfigCommandBase
+    public class CreateConfig : CommandBase
     {
         private string newFileName { get; set; }
         private Config newConfig { get; set; }

@@ -18,7 +18,7 @@ namespace DARemoteViewer.WPF.ViewModel
         
 
         #region Constructors
-        public MainWindowViewModel(ObservableCollection<IConfigQuery<Config>> queries, ObservableCollection<IService<ConfigCommandBase>> services) //ObservableCollection<ICommandService<ICommandBase>> commandServices)
+        public MainWindowViewModel(ObservableCollection<IConfigQuery<Config>> queries, ObservableCollection<IService<CommandBase>> services) //ObservableCollection<ICommandService<ICommandBase>> commandServices)
         {
             this.queries = queries;
             this.services = services;
@@ -55,7 +55,7 @@ namespace DARemoteViewer.WPF.ViewModel
         private ICommand _addConnectionCommand;
         private ICommand _removeConnectionCommand;
         private ObservableCollection<IConfigQuery<Config>> queries;
-        private ObservableCollection<IService<ConfigCommandBase>> services;
+        private ObservableCollection<IService<CommandBase>> services;
         #endregion
 
         #region Public properties

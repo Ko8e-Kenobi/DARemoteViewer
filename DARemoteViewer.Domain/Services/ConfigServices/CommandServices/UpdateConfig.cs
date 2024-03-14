@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace DARemoteViewer.Domain.Services.ConfigServices.CommandServices
 {
-    public class UpdateConfig : ConfigCommandBase
+    public class UpdateConfig : CommandBase
     {
         public  Config ConfigToUpdate {  get; set; }
         public UpdateConfig(Config toUpdate)

@@ -19,14 +19,14 @@ namespace DARemoteViewer.WPF
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            var configCommands = new ObservableCollection<IService<ConfigCommandBase>>();
-            configCommands.Add(new CreateConfigService());
-            configCommands.Add(new UpdateConfigService());
+            var commands = new ObservableCollection<IService<CommandBase>>();
+            commands.Add(new CreateConfigService());
+            commands.Add(new UpdateConfigService());
 
             var configQueries = new ObservableCollection<IConfigQuery<Config>>();
             configQueries.Add(new LoadConfigService());
 
-            var viewModel = new MainWindowViewModel(configQueries, configCommands);
+            var viewModel = new MainWindowViewModel(configQueries, commands);
             Window window = new MainWindow(viewModel);
             window.Show();
         }

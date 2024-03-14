@@ -8,9 +8,9 @@ using DARemoteViewer.Domain.Models;
 
 namespace DARemoteViewer.Domain.Services.ConfigServices.CommandServices
 {
-    public class UpdateConfigService : IConfigService<UpdateConfig>
+    public class UpdateConfigService : ICommandService<UpdateConfig>
     {
-        public void Execute(ConfigCommandBase command)
+        public void Execute(CommandBase command)
         {
             if (command is UpdateConfig) 
             {

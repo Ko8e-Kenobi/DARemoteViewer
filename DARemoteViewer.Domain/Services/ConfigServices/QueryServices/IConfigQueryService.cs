@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DARemoteViewer.Domain.Services.ConfigServices.QueryServices
 {
-    public interface IConfigQueryService<T> : IService<ConfigCommandBase>
+    public interface IConfigQueryService<T> : IService<CommandBase>
     {
     }
 }
