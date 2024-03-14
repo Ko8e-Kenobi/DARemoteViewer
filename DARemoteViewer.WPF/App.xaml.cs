@@ -31,5 +31,4 @@ namespace DARemoteViewer.WPF
             window.Show();
         }
     }
-
 }

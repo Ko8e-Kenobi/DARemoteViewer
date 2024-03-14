@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace DARemoteViewer.Domain.Services.Static
 {
@@ -32,7 +29,7 @@ namespace DARemoteViewer.Domain.Services.Static
             }
             else
             {
-                return "File not found";
+                return "";
             }
         }
         public static string FolderDialog()
@@ -50,7 +47,7 @@ namespace DARemoteViewer.Domain.Services.Static
             }
             else
             {
-                return "File not found";
+                return "";
             }
         }
         public static string SaveFileDialog()
@@ -68,7 +65,7 @@ namespace DARemoteViewer.Domain.Services.Static
             }
             else
             {
-                return "File not found";
+                return "";
             }
         }
         public static void AddUpdateAppSettings(string key, string value)

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace DARemoteViewer.Domain.Models
 {
     public class DAConnection : DomainModel
     {
         public DAUser User { get; set; }
-
+        public string hostName {  get; set; }
+        public string ipAddress { get; set; }
         public Collection<DAService> Service { get; set; }
     }
 }

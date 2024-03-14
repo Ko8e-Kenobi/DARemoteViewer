@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DARemoteViewer;
-using System.IO;
-using System.Collections.ObjectModel;
-using DARemoteViewer.Domain.Services.ConfigServices.CommandServices;
+﻿using System.Collections.ObjectModel;
+
 namespace DARemoteViewer.Domain.Models
 {
     public class Config : DomainModel

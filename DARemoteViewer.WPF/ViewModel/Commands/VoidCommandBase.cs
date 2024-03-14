@@ -9,18 +9,30 @@ namespace DARemoteViewer.WPF.ViewModel.Commands
 {
     public class VoidCommandBase : ICommand
     {
-        public delegate void SomeVoidMethod();
-        SomeVoidMethod ExecuteMethod;
-        bool canExecute;
-        public VoidCommandBase(SomeVoidMethod ToExecute, bool canExecute)
+
+        private Action ExecuteMethod;
+        private Func<bool> canExecute;
+        public VoidCommandBase(Action ToExecute, Func<bool> canExecute)
         {
             ExecuteMethod = ToExecute;
             this.canExecute = canExecute;
         }
+        public VoidCommandBase(Action ToExecute)
+            : this(ToExecute, null)
+        {
+        }
 
         public bool CanExecute(object parameter)
         {
-            return canExecute;
+            if (this.canExecute == null)
+            {
+                return true;
+            }
+            else
+            {
+                bool result = this.canExecute.Invoke();
+                return result;
+            }
         }
 
         public event EventHandler CanExecuteChanged

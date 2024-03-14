@@ -24,6 +24,7 @@ namespace DARemoteViewer.Domain.Services.ConfigServices.CommandServices
         private void Create(string newFileName, Config newConfig) 
         {
             newConfig.fileName = newFileName;
+            newConfig.Name = Path.GetFileName(newFileName);
             XmlSerializer xs = new XmlSerializer(typeof(Config));
             using (TextWriter tw = new StreamWriter(newFileName))
             { xs.Serialize(tw, newConfig); };
