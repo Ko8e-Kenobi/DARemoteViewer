@@ -10,6 +10,8 @@ using DARemoteViewer.Domain.Services.ConfigServices;
 using DARemoteViewer.WPF.ViewModel.Commands;
 using System.Windows.Navigation;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using DARemoteViewer.WPF.Views;
 namespace DARemoteViewer.WPF.ViewModel
 {
     public class MainWindowViewModel: ViewModelBase
@@ -18,7 +20,7 @@ namespace DARemoteViewer.WPF.ViewModel
         
 
         #region Constructors
-        public MainWindowViewModel(ObservableCollection<IConfigQuery<Config>> queries, ObservableCollection<IService<CommandBase>> services) //ObservableCollection<ICommandService<ICommandBase>> commandServices)
+        public MainWindowViewModel(ObservableCollection<IConfigQuery<Config, string>> queries, ObservableCollection<IService<CommandBase>> services) 
         {
             this.queries = queries;
             this.services = services;
@@ -54,7 +56,7 @@ namespace DARemoteViewer.WPF.ViewModel
         private ICommand _loadConfigCommand;
         private ICommand _addConnectionCommand;
         private ICommand _removeConnectionCommand;
-        private ObservableCollection<IConfigQuery<Config>> queries;
+        private ObservableCollection<IConfigQuery<Config,string>> queries;
         private ObservableCollection<IService<CommandBase>> services;
         #endregion
 
@@ -162,9 +164,43 @@ namespace DARemoteViewer.WPF.ViewModel
             }
             set { _loadConfigCommand = value; }
         }
+
+        Window PopUpAddConnection;
+        private bool toClosePopUp = false;
+        public bool ToClosePopUp
+        {
+            get
+            {
+                return toClosePopUp;
+            }
+            set
+            {
+                toClosePopUp = value;
+                this.PopUpAddConnection.Close();
+            }
+        }
         private void AddConnectionCommand_Execute()
         {
-            ActiveConfig.connections.Add(new DAConnection { Name = "Test Connection", hostName = "localhost" });
+            AddConnectionPopUpViewModel addConnection = new AddConnectionPopUpViewModel();
+            addConnection.Connection = new DAConnection();
+            addConnection.Connection.User = new DAUser();
+            addConnection.Connection.User.Name = "User name";
+            addConnection.Connection.User.Password = "Password";
+            addConnection.Connection.IPAddress = "localhost";
+            addConnection.IsConfirmed = ToClosePopUp;
+            PopUpAddConnection = new AddConnectionPopUp(addConnection);
+            PopUpAddConnection.ShowDialog();
+            if (addConnection.IsConfirmed)
+            {
+                ActiveConfig.connections.Add(addConnection.Connection);
+            }
+            else if (addConnection.IsCanceled)
+            {
+                MessageBox.Show("Canceled");
+            }
+            
+            PopUpAddConnection.Close();
+
         }
         private bool AddConnectionCommand_CanExecute()
         {

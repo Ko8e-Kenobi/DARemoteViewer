@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DARemoteViewer.Domain.Services.ConfigServices.QueryServices
 {
-    public interface IConfigQuery<T>
+    public interface IConfigQuery<ReturnT,InputT>
     {
-        public T Execute(string fileName);
+        public ReturnT Execute(InputT command);
     }
 }

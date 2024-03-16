@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Xml.Serialization;
 namespace DARemoteViewer.Domain.Services.ConfigServices.CommandServices
 {
-    public class CreateConfigService : ICommandService<CreateConfig>
+    public class CreateConfigService : IConfigService<CreateConfig>
     {
         public void Execute(CommandBase command)
         {

@@ -8,7 +8,7 @@ namespace DARemoteViewer.Domain.Models
 {
     public class DAUser : DomainModel
     {
-        string userName;
-        string password;
+        public string Name{get; set;}
+        public string Password { get; set; }
     }
 }

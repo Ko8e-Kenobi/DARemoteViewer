@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace DARemoteViewer.Domain.Services.ConfigServices.QueryServices
 {
-    public class LoadConfigService : IConfigQuery<Config>
+    public class LoadConfigService : IConfigQuery<Config,string>
     {
         public Config Execute(string fileName)
         {

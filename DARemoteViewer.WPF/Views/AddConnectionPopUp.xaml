@@ -1,0 +1,50 @@
+﻿<Window x:Class="DARemoteViewer.WPF.Views.AddConnectionPopUp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DARemoteViewer.WPF.Views"
+        mc:Ignorable="d"
+        Title="AddConnectionPopUp"  SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid HorizontalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Grid.Row="0">
+                <TextBlock  Text="IP Address" Width="120" HorizontalAlignment="Left"/>
+                <TextBlock  Text="User" Width="120" HorizontalAlignment="Left"/>
+                <TextBlock  Text="Password" Width="120" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="0">
+                <TextBox Text="{Binding Connection.IPAddress}"     Width="120" HorizontalAlignment="Right"/>
+                <TextBox Text="{Binding Connection.User.Name}" Width="120" HorizontalAlignment="Right"/>
+                <TextBox Text="{Binding Connection.User.Password}" Width="120" HorizontalAlignment="Right"/>
+            </StackPanel>
+            <StackPanel Grid.Column="0" Grid.Row="1">
+                <Button Command="{Binding TestConnectionCommand}" Grid.Column="0" Grid.Row="1" Content="Test Connection" Width="120" HorizontalAlignment="Left"></Button>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="1">
+                <TextBlock  Text="{Binding Status}" Width="120" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Grid.Column="0" Grid.Row="2">
+                <Button Command="{Binding OkCommand}" Content="OK"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="2">
+                <Button Command="{Binding CancelCommand}" Content="CANCEL"/>
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
+
+</Window>
