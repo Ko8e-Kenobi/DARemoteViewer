@@ -38,6 +38,18 @@ namespace DARemoteViewer.WPF.ViewModel
             catch (Exception)
             {
                 MessageBox.Show("Not found active config file. Default config will be applied");
+                CreateConfigService.Execute(new CreateConfig(defaultConfigFileName, 
+                    new Config
+                    {
+                        Name = "Default",
+                        connections = new ObservableCollection<DAConnection>
+                        {
+                            new DAConnection
+                            {
+                                Name="Default"
+                            }
+                        }
+                    }));
                 startConfig = LoadConfigService.Execute(defaultConfigFileName);
             }
             ActiveConfig = startConfig;
@@ -189,7 +201,9 @@ namespace DARemoteViewer.WPF.ViewModel
             addConnection.Connection.IPAddress = "localhost";
             addConnection.IsConfirmed = ToClosePopUp;
             PopUpAddConnection = new AddConnectionPopUp(addConnection);
+            PopUpAddConnection.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
             PopUpAddConnection.ShowDialog();
+
             if (addConnection.IsConfirmed)
             {
                 ActiveConfig.connections.Add(addConnection.Connection);

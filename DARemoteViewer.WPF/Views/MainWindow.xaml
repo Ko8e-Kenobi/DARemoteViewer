@@ -41,11 +41,11 @@
                 <Label Grid.Row="0" Grid.Column="0" Content="{Binding ActiveConfig.Name}" Margin="0,0,64,0"/>
                 <Button Command="{Binding AddConnectionCommand}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
                     <StackPanel>
-                        <Image Source="Image\plusicon_25p.png" HorizontalAlignment="Right"/>
+                        <Image Source="..\Image\plusicon_25p.png" HorizontalAlignment="Right"/>
                     </StackPanel>
                 </Button>
                 <Button Command="{Binding RemoveConnectionCommand}" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                    <Image Source="Image\minusicon_25p.png" HorizontalAlignment="Right"/>
+                    <Image Source="..\Image\minusicon_25p.png" HorizontalAlignment="Right"/>
                 </Button> 
             </Grid>
             <ListBox Grid.Row="1" Grid.Column="0" Height="auto" ItemsSource="{Binding ActiveConfig.connections}" SelectedItem="{Binding SelectedConnection}" >

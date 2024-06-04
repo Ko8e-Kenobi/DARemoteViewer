@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DARemoteViewer.Domain", "DA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{466C8CCD-B6B2-4E0F-BC66-9D7F98DE0EFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DARemoteViewer.WPF", "DARemoteViewer.WPF\DARemoteViewer.WPF.csproj", "{2D5BCB10-362C-4068-9299-AEF6B8B7C71B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DARemoteViewer.WPF", "DARemoteViewer.WPF\DARemoteViewer.WPF.csproj", "{2D5BCB10-362C-4068-9299-AEF6B8B7C71B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5C31C301-E3DD-4D0E-9036-08683F1F9381}"
+	ProjectSection(SolutionItems) = preProject
+		OnPropertyChangeBase.cs = OnPropertyChangeBase.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +31,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5C31C301-E3DD-4D0E-9036-08683F1F9381} = {466C8CCD-B6B2-4E0F-BC66-9D7F98DE0EFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {767D3ABB-BA6B-490F-8AAD-C7FCC5740C86}

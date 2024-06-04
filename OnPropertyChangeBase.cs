@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DARemoteViewer.WPF.ViewModel
+public class OnPropertyChangeBase : INotifyPropertyChanged
 {
-    public class ViewModelBase : INotifyPropertyChanged 
-    {
+	public OnPropertyChangeBase()
+	{
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
