@@ -35,7 +35,7 @@ namespace DARemoteViewer.Domain.Models
 
         public object Clone()
         {
-            return new DAService { Controller = this.Controller, }
+            return new DAService { Controller = this.Controller, Name = this.Name };
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")

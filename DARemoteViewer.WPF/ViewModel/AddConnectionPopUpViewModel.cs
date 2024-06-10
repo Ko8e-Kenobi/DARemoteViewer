@@ -196,8 +196,6 @@ namespace DARemoteViewer.WPF.ViewModel
             set
             {
                 selectedSavedService = value;
-                //selectedSavedService.IsSelected = false;
-                //RemoveService();
                 OnPropertyChanged();
             }
         }
@@ -220,6 +218,7 @@ namespace DARemoteViewer.WPF.ViewModel
         private void OkCommand_Execute()
         {
             IsConfirmed = true;
+            Connection.Services = SavedServices;
             CloseCommandFunction();
         }
         private void TestConnectionCommand_Execute()
@@ -265,24 +264,33 @@ namespace DARemoteViewer.WPF.ViewModel
 
         private void GetServicesCommand_Execute()
         {
-            
-            ServiceController[] scs = ServiceController.GetServices(Connection.IPAddress);
-            scs = scs.Where(service => service.ServiceName.Contains(filter.Trim(),StringComparison.OrdinalIgnoreCase)).ToArray();
-            if (FoundServices is not null)
+            //ServiceManagerWithAuthentification();
+            try
             {
-                FoundServices.Clear();
-            }
-            
-            foreach (ServiceController service in scs)
-            {
-                FoundServices.Add(new DAService { Name = service.ServiceName, Controller = service });
+                ServiceController[] scs = ServiceController.GetServices(Connection.IPAddress);
+                scs = scs.Where(service => service.ServiceName.Contains(filter.Trim(), StringComparison.OrdinalIgnoreCase)).ToArray();
+                if (FoundServices is not null)
+                {
+                    FoundServices.Clear();
+                }
 
-                //if (service.ServiceName == "DA$LABELLQ31")
-                //{
-                //    //service.Start();
-                //    MessageBox.Show(service.Status.ToString());
-                //}
+                foreach (ServiceController service in scs)
+                {
+                    FoundServices.Add(new DAService { Name = service.ServiceName, Controller = service });
+
+                    //if (service.ServiceName == "DA$LABELLQ31")
+                    //{
+                    //    //service.Start();
+                    //    MessageBox.Show(service.Status.ToString());
+                    //}
+                }
             }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                //throw;
+            }
+           
         }
 
         private void AddServiceCommand_Execute()
@@ -304,12 +312,11 @@ namespace DARemoteViewer.WPF.ViewModel
                     if (!SavedServices.Any(i=> i.Name == item.Name))
                     {
                         item.IsSelected = false;
-                        SavedServices.Add(item);
+                        SavedServices.Add((DAService)item.Clone());
 
                     }
                 }
             }
-            OnPropertyChanged(() => FoundServices);
         }
 
         private void RemoveService()
@@ -326,9 +333,9 @@ namespace DARemoteViewer.WPF.ViewModel
         private void ServiceManagerWithAuthentification()
         {
             ConnectionOptions options = new ConnectionOptions();
-            options.Username = "User";
-            options.Password = "Password";
-            ManagementScope scope = new ManagementScope("\\\\10.71.27.49\\root\\cimv2", options);
+            options.Username = "Administrator";
+            options.Password = "Automation%1969";
+            ManagementScope scope = new ManagementScope("\\\\10.71.10.152\\root\\cimv2", options);
             scope.Connect();
 
             //Query system for Operating System information
@@ -349,13 +356,10 @@ namespace DARemoteViewer.WPF.ViewModel
                 //string a = outParams["ReturnValue"].ToString();
 
                 // get service state
-                //string state = oReturn.Properties["State"].Value.ToString().Trim();
+                string state = oReturn.Properties["State"].Value.ToString().Trim();
 
                 //MessageBox.Show(state);// TO DISPLAY STATOS FROM SERVICE IN REMOTE COMPUTER
             }
-
-
-
         }
     }
 }

@@ -7,105 +7,100 @@
         xmlns:controls="clr-namespace:DARemoteViewer.WPF.Controls"
         
         mc:Ignorable="d"
-        Title="AddConnectionPopUp"  SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="CanResize" >
-    <Grid HorizontalAlignment="Center" Height="Auto">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        Title="AddConnectionPopUp"  SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="CanResize" MinWidth="550" MinHeight="500" MaxHeight="700">
+    <Grid HorizontalAlignment="Center" Height="Auto" Margin="5,5,5,5">
+        <Frame BorderBrush="Black" BorderThickness="1"/>
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Grid.Row="0">
-                <TextBlock  Text="IP Address" Width="120" HorizontalAlignment="Left"/>
-                <TextBlock  Text="User" Width="120" HorizontalAlignment="Left"/>
-                <TextBlock  Text="Password" Width="120" HorizontalAlignment="Left"/>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Grid.Row="0">
-                <TextBox Text="{Binding Connection.IPAddress}"     Width="121" HorizontalAlignment="Right"/>
-                <TextBox Text="{Binding Connection.User.Name}" Width="121" HorizontalAlignment="Right"/>
-                <TextBox Text="{Binding Connection.User.Password}" Width="121" HorizontalAlignment="Right"/>
-            </StackPanel>
-            <StackPanel Grid.Column="0" Grid.Row="1">
-                <Button Command="{Binding TestConnectionCommand}" Grid.Column="0" Grid.Row="1" Content="Test Connection" Width="120" HorizontalAlignment="Left"></Button>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Grid.Row="1">
-                <TextBlock  Text="{Binding Status}" Width="120" Height="20"/>
-            </StackPanel>
-
-            <StackPanel Grid.Column="0" Grid.Row="2">
-                <Button Command="{Binding GetServicesCommand}" Grid.Column="0" Grid.Row="1" Content="Get services" Width="120" HorizontalAlignment="Left"></Button>
-            </StackPanel>
-            <StackPanel Grid.Column="1" Grid.Row="2">
-                <TextBox  Text="{Binding Filter}" Width="121" Height="20"/>
-            </StackPanel>
-        </Grid>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Row="0" Grid.Column="0">
+            <Grid Grid.Row="0"  Margin="5,0,5,5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"  Text="Found Services"/>
-                <Button Command="{Binding AddServiceCommand}" Grid.Column="1" HorizontalAlignment="Right" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                    <StackPanel>
-                        <Image Source="..\Image\plusicon_25p.png" HorizontalAlignment="Right"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,5,0,0">
+                        <TextBlock  Text="IP Address"  HorizontalAlignment="Left"/>
+                        <TextBlock  Text="User"  HorizontalAlignment="Left"/>
+                        <TextBlock  Text="Password"  HorizontalAlignment="Left"/>
                     </StackPanel>
-                </Button>
+
+                    <StackPanel Grid.Column="1" Margin="0,5,5,0">
+                        <TextBox Text="{Binding Connection.Name}"      />
+                        <TextBox Text="{Binding Connection.IPAddress}"      />
+                    </StackPanel>
+
+                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding TestConnectionCommand}" Content="Test Connection" />
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Status}" Margin="0,0,5,0" />
+
+                    <Button Grid.Column="0" Grid.Row="4" Command="{Binding GetServicesCommand}" Content="Get services" ></Button>
+                    <TextBox  Grid.Column="1" Grid.Row="4" Text="{Binding Filter}" Margin="0,0,5,0" />
+                </Grid>
             </Grid>
-            <Grid Grid.Row="0" Grid.Column="1">
+            <Grid Grid.Row="1" Margin="5,5,8,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition MinWidth="250"></ColumnDefinition>
+                    <ColumnDefinition MinWidth="250"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Command="{Binding RemoveServiceCommand}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                    <Image Source="..\Image\minusicon_25p.png" HorizontalAlignment="Right"/>
-                </Button>
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="Saved Services"/>
+                <Frame Grid.Column="0" BorderThickness="1" BorderBrush="Black"/>
+                <Frame Grid.Column="1" BorderThickness="1" BorderBrush="Black" />
+                <Grid Grid.Row="0" Grid.Column="0" Height="25" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0"  Text="Found Services" HorizontalAlignment="Center"/>
+                    <Button Grid.Column="1" Command="{Binding AddServiceCommand}"  HorizontalAlignment="Right" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                        <Image Source="..\Image\plusicon_25p.png"/>
+                    </Button>
+                </Grid>
+                <Grid Grid.Row="0" Grid.Column="1" Height="25">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Command="{Binding RemoveServiceCommand}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                        <Image Source="..\Image\minusicon_25p.png"/>
+                    </Button>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Saved Services" HorizontalAlignment="Center"/>
+                </Grid>
+                <ListBox Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Stretch" ItemsSource="{Binding FoundServices}" SelectedItem="{Binding SelectedFoundService}" ScrollViewer.CanContentScroll="True" Margin="0,0,0,5" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ServiceBar/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ListBox Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Stretch"  ItemsSource="{Binding SavedServices}" SelectedItem="{Binding SelectedSavedService}" ScrollViewer.CanContentScroll="True" Margin="0,0,0,5" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <controls:ServiceBar/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+
+                <Button Grid.Column="1" Grid.Row="2" Command="{Binding OkCommand}" Content="OK" HorizontalAlignment="Right" Margin="0,5,60,5" Height="20" VerticalAlignment="Bottom" Width="50"/>
+                <Button Grid.Column="1" Grid.Row="2" Command="{Binding CancelCommand}" Content="CANCEL" Margin="5,5,5,5" Height="20" HorizontalAlignment="Right" Width="50" VerticalAlignment="Bottom" />
             </Grid>
-
-            <StackPanel Grid.Row="1" Grid.Column="0" Height="Auto" HorizontalAlignment="Stretch">
-                <ListBox Grid.Column="0" Grid.Row="0"  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding FoundServices}" SelectedItem="{Binding SelectedFoundService}" ScrollViewer.CanContentScroll="True" MaxHeight="500">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <!--<TextBlock HorizontalAlignment="Stretch"  Text="{Binding Name}"/>-->
-                            <controls:ServiceBar Width="Auto"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="1" Height="Auto" HorizontalAlignment="Stretch">
-                <ListBox Grid.Column="0" Grid.Row="0"  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding SavedServices}" SelectedItem="{Binding SelectedSavedService}" ScrollViewer.CanContentScroll="True" MaxHeight="500">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <!--<TextBlock HorizontalAlignment="Stretch"  Text="{Binding Name}"/>-->
-                            <controls:ServiceBar Width="Auto"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
         </Grid>
-       
-        <Button Grid.Row="2" Command="{Binding CancelCommand}" Content="CANCEL" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120"/>
-        <Button Grid.Row="2" Command="{Binding OkCommand}" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="120"  />
     </Grid>
-
 </Window>

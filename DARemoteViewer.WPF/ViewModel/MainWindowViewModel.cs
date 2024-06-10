@@ -16,9 +16,6 @@ namespace DARemoteViewer.WPF.ViewModel
 {
     public class MainWindowViewModel: ViewModelBase
     {
-
-        
-
         #region Constructors
         public MainWindowViewModel(ObservableCollection<IConfigQuery<Config, string>> queries, ObservableCollection<IService<CommandBase>> services) 
         {
@@ -66,8 +63,10 @@ namespace DARemoteViewer.WPF.ViewModel
         private ICommand _createConfigCommand;
         private ICommand _updateConfigCommand;
         private ICommand _loadConfigCommand;
+        private ICommand _editConnectionCommand;
         private ICommand _addConnectionCommand;
         private ICommand _removeConnectionCommand;
+        private bool connectionIsSelected = false;
         private ObservableCollection<IConfigQuery<Config,string>> queries;
         private ObservableCollection<IService<CommandBase>> services;
         #endregion
@@ -99,6 +98,7 @@ namespace DARemoteViewer.WPF.ViewModel
             set
             {
                 selectedConnection = value;
+                connectionIsSelected = true;
                 OnPropertyChanged();
             }
         }
@@ -191,6 +191,47 @@ namespace DARemoteViewer.WPF.ViewModel
                 this.PopUpAddConnection.Close();
             }
         }
+
+        private void EditConnectionCommand_Execute()
+        {
+            AddConnectionPopUpViewModel editConnection = new AddConnectionPopUpViewModel();
+            editConnection.Connection = SelectedConnection;
+            editConnection.IsConfirmed = ToClosePopUp;
+            PopUpAddConnection = new AddConnectionPopUp(editConnection);
+            PopUpAddConnection.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            editConnection.SavedServices = SelectedConnection.Services;
+            PopUpAddConnection.ShowDialog();
+
+            
+            if (editConnection.IsConfirmed)
+            {
+                //ActiveConfig.connections.Add(addConnection.Connection);
+            }
+            else if (editConnection.IsCanceled)
+            {
+                MessageBox.Show("Canceled");
+            }
+
+            PopUpAddConnection.Close();
+
+        }
+        private bool EditConnectionCommand_CanExecute()
+        {
+            return connectionIsSelected;
+        }
+        public ICommand EditConnectionCommand
+        {
+            get
+            {
+                if (_editConnectionCommand is null)
+                {
+                    _editConnectionCommand = new VoidCommandBase(EditConnectionCommand_Execute, EditConnectionCommand_CanExecute) { };
+                }
+                return _editConnectionCommand;
+            }
+            set { _editConnectionCommand = value; }
+        }
+
         private void AddConnectionCommand_Execute()
         {
             AddConnectionPopUpViewModel addConnection = new AddConnectionPopUpViewModel();

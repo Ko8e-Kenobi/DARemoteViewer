@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <None Remove="App.config" />
+    <None Remove="Image\editIcon_25p.png" />
+    <None Remove="Image\editIcon_25p2.png" />
     <None Remove="Image\minusicon.png" />
     <None Remove="Image\minusicon_25p.png" />
     <None Remove="Image\plusicon.png" />
@@ -26,6 +28,7 @@
     </Content>
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
+    <Resource Include="Image\editIcon_25p.png" />
     <Resource Include="Image\minusicon_25p.png" />
     <Resource Include="Image\plusicon_25p.png" />
   </ItemGroup>
