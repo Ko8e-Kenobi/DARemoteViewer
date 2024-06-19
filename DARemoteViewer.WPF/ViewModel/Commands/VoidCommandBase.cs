@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -11,6 +12,8 @@ namespace DARemoteViewer.WPF.ViewModel.Commands
     {
 
         private Action ExecuteMethod;
+        private Action<object> ExecuteMethodObject;
+
         private Func<bool> canExecute;
         public VoidCommandBase(Action ToExecute, Func<bool> canExecute)
         {
@@ -21,7 +24,11 @@ namespace DARemoteViewer.WPF.ViewModel.Commands
             : this(ToExecute, null)
         {
         }
-
+        public VoidCommandBase(Action<object> ToExecute)//, Func<bool> canExecute)
+        {
+            ExecuteMethodObject = ToExecute;
+            //this.canExecute = canExecute;
+        }
         public bool CanExecute(object parameter)
         {
             if (this.canExecute == null)
@@ -34,7 +41,6 @@ namespace DARemoteViewer.WPF.ViewModel.Commands
                 return result;
             }
         }
-
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
@@ -43,7 +49,14 @@ namespace DARemoteViewer.WPF.ViewModel.Commands
 
         public void Execute(object parameter)
         {
-            ExecuteMethod();
+            if(parameter == null)
+            {
+                ExecuteMethod();
+            }
+            else
+            {
+                ExecuteMethodObject(parameter);
+            }
         }
     }
 }

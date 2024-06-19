@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="DARemoteViewer.WPF.Controls.MainServiceBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DARemoteViewer.WPF.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
+        <Label  Grid.Column="0" Content="{Binding Name}" HorizontalAlignment="Left"/>
+        <Label Grid.Column="1" Content="{Binding Status}" HorizontalAlignment="Right" />
+        <!--<Button Grid.Column="2" Content="Start" HorizontalAlignment="Right"/>-->
+        <Button Grid.Column="2" Content="Start" HorizontalAlignment="Right" Command="{Binding  Path=DataContext.StartServiceCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding Name}" IsEnabled="{Binding StartEnable}"/>
+        <Button Grid.Column="3" Content="Stop" HorizontalAlignment="Right" IsEnabled="{Binding StopEnable}"/>
+    </Grid>
+</UserControl>

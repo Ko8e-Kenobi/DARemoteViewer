@@ -1,25 +1,21 @@
 ﻿using DARemoteViewer.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DARemoteViewer.Domain.Services.Commands;
 using System.Xml.Serialization;
 
-namespace DARemoteViewer.Domain.Services.ConfigServices.CommandServices
+namespace DARemoteViewer.Domain.Services.Commands.ConfigCommands
 {
     public class UpdateConfig : CommandBase
     {
-        public  Config ConfigToUpdate {  get; set; }
+        public Config ConfigToUpdate { get; set; }
         public UpdateConfig(Config toUpdate)
         {
-            this.ConfigToUpdate = toUpdate;
+            ConfigToUpdate = toUpdate;
         }
         public override void Execute()
         {
             Update();
         }
-        private void Update() 
+        private void Update()
         {
             XmlSerializer xs = new XmlSerializer(typeof(Config));
             using (TextWriter tw = new StreamWriter(ConfigToUpdate.fileName))

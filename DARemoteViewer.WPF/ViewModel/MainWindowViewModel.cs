@@ -2,23 +2,26 @@
 using DARemoteViewer.Domain.Services.Static;
 using DARemoteViewer.Domain.Models;
 using System.Collections.ObjectModel;
-using DARemoteViewer.Domain.Services.ConfigServices.QueryServices;
 using System.IO;
 using System.Windows.Input;
-using DARemoteViewer.Domain.Services.ConfigServices.CommandServices;
-using DARemoteViewer.Domain.Services.ConfigServices;
 using DARemoteViewer.WPF.ViewModel.Commands;
 using System.Windows.Navigation;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using DARemoteViewer.WPF.Views;
+using DARemoteViewer.Domain.Services.Commands;
+using DARemoteViewer.Domain.Services.Commands.ConfigCommands;
+using DARemoteViewer.Domain.Services.Queries.ConfigQueries;
+using System.Windows.Media.Animation;
+using System.ServiceProcess;
+using static System.Net.WebRequestMethods;
+using System.Xml.Linq;
 namespace DARemoteViewer.WPF.ViewModel
 {
     public class MainWindowViewModel: ViewModelBase
     {
-
-        
-
         #region Constructors
-        public MainWindowViewModel(ObservableCollection<IConfigQuery<Config>> queries, ObservableCollection<IService<CommandBase>> services) //ObservableCollection<ICommandService<ICommandBase>> commandServices)
+        public MainWindowViewModel(ObservableCollection<IQuery<Config, string>> queries, ObservableCollection<IService<CommandBase>> services) 
         {
             this.queries = queries;
             this.services = services;
@@ -32,10 +35,23 @@ namespace DARemoteViewer.WPF.ViewModel
             try
             {
                 startConfig = LoadConfigService.Execute(activeConfigFileName);
+                CheckServiceStatusTask();
             }
             catch (Exception)
             {
                 MessageBox.Show("Not found active config file. Default config will be applied");
+                CreateConfigService.Execute(new CreateConfig(defaultConfigFileName, 
+                    new Config
+                    {
+                        Name = "Default",
+                        connections = new ObservableCollection<DAConnection>
+                        {
+                            new DAConnection
+                            {
+                                Name="Default"
+                            }
+                        }
+                    }));
                 startConfig = LoadConfigService.Execute(defaultConfigFileName);
             }
             ActiveConfig = startConfig;
@@ -52,9 +68,12 @@ namespace DARemoteViewer.WPF.ViewModel
         private ICommand _createConfigCommand;
         private ICommand _updateConfigCommand;
         private ICommand _loadConfigCommand;
+        private ICommand _editConnectionCommand;
         private ICommand _addConnectionCommand;
         private ICommand _removeConnectionCommand;
-        private ObservableCollection<IConfigQuery<Config>> queries;
+        private VoidCommandBase _startServiceCommand;
+        private bool connectionIsSelected = false;
+        private ObservableCollection<IQuery<Config,string>> queries;
         private ObservableCollection<IService<CommandBase>> services;
         #endregion
 
@@ -85,6 +104,7 @@ namespace DARemoteViewer.WPF.ViewModel
             set
             {
                 selectedConnection = value;
+                connectionIsSelected = true;
                 OnPropertyChanged();
             }
         }
@@ -162,9 +182,84 @@ namespace DARemoteViewer.WPF.ViewModel
             }
             set { _loadConfigCommand = value; }
         }
+
+        Window PopUpAddConnection;
+        private bool toClosePopUp = false;
+        public bool ToClosePopUp
+        {
+            get
+            {
+                return toClosePopUp;
+            }
+            set
+            {
+                toClosePopUp = value;
+                this.PopUpAddConnection.Close();
+            }
+        }
+
+        private void EditConnectionCommand_Execute()
+        {
+            AddConnectionPopUpViewModel editConnection = new AddConnectionPopUpViewModel();
+            editConnection.Connection = SelectedConnection;
+            editConnection.IsConfirmed = ToClosePopUp;
+            PopUpAddConnection = new AddConnectionPopUp(editConnection);
+            PopUpAddConnection.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            editConnection.SavedServices = SelectedConnection.Services;
+            PopUpAddConnection.ShowDialog();
+
+            
+            if (editConnection.IsConfirmed)
+            {
+                //ActiveConfig.connections.Add(addConnection.Connection);
+            }
+            else if (editConnection.IsCanceled)
+            {
+                MessageBox.Show("Canceled");
+            }
+
+            PopUpAddConnection.Close();
+
+        }
+        private bool EditConnectionCommand_CanExecute()
+        {
+            return connectionIsSelected;
+        }
+        public ICommand EditConnectionCommand
+        {
+            get
+            {
+                if (_editConnectionCommand is null)
+                {
+                    _editConnectionCommand = new VoidCommandBase(EditConnectionCommand_Execute, EditConnectionCommand_CanExecute) { };
+                }
+                return _editConnectionCommand;
+            }
+            set { _editConnectionCommand = value; }
+        }
+
         private void AddConnectionCommand_Execute()
         {
-            ActiveConfig.connections.Add(new DAConnection { Name = "Test Connection", hostName = "localhost" });
+            AddConnectionPopUpViewModel addConnection = new AddConnectionPopUpViewModel();
+            addConnection.Connection = new DAConnection();
+            //addConnection.Connection.User = new DAUser();
+            addConnection.Connection.Name = "MyConnection";
+            addConnection.Connection.IPAddress = "localhost";
+            addConnection.IsConfirmed = ToClosePopUp;
+            PopUpAddConnection = new AddConnectionPopUp(addConnection);
+            PopUpAddConnection.Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive);
+            PopUpAddConnection.ShowDialog();
+
+            if (addConnection.IsConfirmed)
+            {
+                ActiveConfig.connections.Add(addConnection.Connection);
+            }
+            else if (addConnection.IsCanceled)
+            {
+                MessageBox.Show("Canceled");
+            }
+            PopUpAddConnection.Close();
+
         }
         private bool AddConnectionCommand_CanExecute()
         {
@@ -202,8 +297,76 @@ namespace DARemoteViewer.WPF.ViewModel
         {
             return ActiveConfig.connections.Count > 1;
         }
+        public ICommand StartServiceCommand
+        {
+            get
+            {
+                if (_startServiceCommand is null)
+                {
+                    _startServiceCommand = new VoidCommandBase(obj =>
+                    {
+                        if (obj != null)
+                        {
+                            string serviceName = obj as string;
+                            StartServiceCommand_Execute(serviceName);
+                        }
+                    });
+                }
+                return _startServiceCommand;
+            }
+           // set { _startServiceCommand = value; }
+        }
+        private void StartServiceCommand_Execute(string serviceName)
+        {
+            var service = SelectedConnection.Services.FirstOrDefault(x => x.Name == serviceName);
+            service.Controller.Start();
+            //service.StartEnable = false;
+        }
+        //private bool StartServiceCommand_CanExecute()
+        //{
+        //    //return SelectedConnection.Services.FirstOrDefault(x => x.Name == serviceName).Controller.Status == ServiceControllerStatus.Stopped;
+        //    return true;
+        //}
         #endregion
+        private async void CheckServiceStatusTask()
+        {
+            while (true)
+            {
+                CheckServicesStatus();
+                await Task.Delay(1000);
+            }
 
+        }
+        private void CheckServicesStatus()
+        {
+            if (SelectedConnection is not null)
+            {
+                if (connectionIsSelected)
+                {
+                    foreach (var item in SelectedConnection.Services)
+                    {
+                        if (item.Controller is null)
+                        {
+                            var tempController = ServiceController.GetServices(selectedConnection?.IPAddress).FirstOrDefault(x => x.ServiceName == item.Name);
+                            if (tempController is not null)
+                            {
+                                item.Controller = tempController;
+                                //item.Exist = true;
+                            }
+                            else { continue; }
+                        }
+                        //if (item.Exist)
+                        //{
+                        item.Controller.Refresh();
+                        item.Status = item.Controller.Status.ToString();
+                        //}
+                        //item.StartEnable = item.Status == ServiceControllerStatus.Stopped.ToString() || item.Status == ServiceControllerStatus.Paused.ToString();
+
+                        // StartServiceCommand_CanExecute(item.Name);
+                    }
+                }
+            }
+        }
         #region Private methods
         private void InitializeServices()
         {

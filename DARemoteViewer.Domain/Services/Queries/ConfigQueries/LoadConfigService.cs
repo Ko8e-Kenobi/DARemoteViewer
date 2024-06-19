@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DARemoteViewer.Domain.Services;
 using System.Xml.Serialization;
 
-namespace DARemoteViewer.Domain.Services.ConfigServices.QueryServices
+namespace DARemoteViewer.Domain.Services.Queries.ConfigQueries
 {
-    public class LoadConfigService : IConfigQuery<Config>
+    public class LoadConfigService : IQuery<Config, string>
     {
         public Config Execute(string fileName)
         {
