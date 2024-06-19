@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DARemoteViewer.Domain.Services
 {
-    public interface IQueryService<T>
+    public interface IQuery<ReturnT, InputT>
     {
-        public T Execute();
+        public ReturnT Execute(InputT command);
     }
 }

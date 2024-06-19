@@ -16,7 +16,7 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace DARemoteViewer.WPF.ViewModel
 {
-    public class AddConnectionPopUpViewModel : ViewModelBase
+    public class AddConnectionPopUpViewModel() : ViewModelBase
     {
         public DAConnection Connection { get; set; }
         public bool IsConfirmed { get; set; }

@@ -8,6 +8,7 @@ namespace DARemoteViewer.Domain.Models
         public DAUser User { get; set; }
         public string hostName {  get; set; }
         public string IPAddress { get; set; }
+        public int Status { get; set; }
         public ObservableCollection<DAService> Services { get; set; }
     }
 }

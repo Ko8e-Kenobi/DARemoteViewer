@@ -14,7 +14,12 @@ namespace DARemoteViewer.Domain.Models
 {
     public class DAService : DomainModel, INotifyPropertyChanged, ICloneable
     {
+        private bool isControllerInitialized { get; set; }
         private bool isSelected = false;
+        private bool exist = false;
+        private string status = "Missing";
+        private bool startEnable;
+        private bool stopEnable;
         public bool IsSelected
         {
             get 
@@ -25,9 +30,50 @@ namespace DARemoteViewer.Domain.Models
                 OnPropertyChanged();
             }
         }
-    
+        public bool Exist
+        {
+            get { return exist; }
+            set { exist = value; OnPropertyChanged(); }
+        }
 
-
+        public string Status
+        {
+            get => status;
+            set 
+            { 
+                status = value; 
+                OnPropertyChanged();
+                OnPropertyChanged("StartEnable");
+                OnPropertyChanged("StopEnable");
+            }
+        }
+        // public bool StartEnable { get;set; }
+        public bool StartEnable 
+        {
+            get 
+            {
+                startEnable = status == ServiceControllerStatus.Stopped.ToString() || status ==ServiceControllerStatus.Paused.ToString();
+                return startEnable;
+            }
+            set 
+            {
+                startEnable = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool StopEnable
+        {
+            get
+            {
+                stopEnable = status == ServiceControllerStatus.Running.ToString() || status == ServiceControllerStatus.Paused.ToString();
+                return stopEnable;
+            }
+            set
+            {
+                stopEnable = value;
+                OnPropertyChanged();
+            }
+        }
         [XmlIgnore]
         public ServiceController Controller { get; set; }
 

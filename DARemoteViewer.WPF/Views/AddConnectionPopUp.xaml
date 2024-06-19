@@ -33,9 +33,8 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Margin="0,5,0,0">
-                        <TextBlock  Text="IP Address"  HorizontalAlignment="Left"/>
-                        <TextBlock  Text="User"  HorizontalAlignment="Left"/>
-                        <TextBlock  Text="Password"  HorizontalAlignment="Left"/>
+                        <Label  Content="Connection Name"/>
+                        <Label  Content="IP Address"/>
                     </StackPanel>
 
                     <StackPanel Grid.Column="1" Margin="0,5,5,0">

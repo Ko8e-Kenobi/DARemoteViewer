@@ -14,8 +14,9 @@
             <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
         <Label  Grid.Column="0" Content="{Binding Name}" HorizontalAlignment="Left"/>
-        <Label Grid.Column="1" Content="Status" HorizontalAlignment="Right" />
-        <Button Grid.Column="2" Content="Start" HorizontalAlignment="Right"/>
-        <Button Grid.Column="3" Content="Stop" HorizontalAlignment="Right"/>
+        <Label Grid.Column="1" Content="{Binding Status}" HorizontalAlignment="Right" />
+        <!--<Button Grid.Column="2" Content="Start" HorizontalAlignment="Right"/>-->
+        <Button Grid.Column="2" Content="Start" HorizontalAlignment="Right" Command="{Binding  Path=DataContext.StartServiceCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding Name}" IsEnabled="{Binding StartEnable}"/>
+        <Button Grid.Column="3" Content="Stop" HorizontalAlignment="Right" IsEnabled="{Binding StopEnable}"/>
     </Grid>
 </UserControl>

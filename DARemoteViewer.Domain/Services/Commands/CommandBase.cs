@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DARemoteViewer.Domain.Services.ConfigServices
+namespace DARemoteViewer.Domain.Services.Commands
 {
     public abstract class CommandBase : ICommandBase
     {
