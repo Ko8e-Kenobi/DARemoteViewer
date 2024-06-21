@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
+    <AssemblyName>Remote Viewer</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +18,8 @@
     <None Remove="Image\minusicon_25p.png" />
     <None Remove="Image\plusicon.png" />
     <None Remove="Image\plusicon_25p.png" />
+    <None Remove="Image\startService_25p.png" />
+    <None Remove="Image\stopService_25p.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,11 +30,22 @@
     <Content Include="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Image\startService_25p.png" />
+    <Resource Include="Image\stopService_25p.png" />
+    <Resource Include="Logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="8.0.0" />
     <Resource Include="Image\editIcon_25p.png" />
     <Resource Include="Image\minusicon_25p.png" />
     <Resource Include="Image\plusicon_25p.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="AssemblyInfo.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 
 </Project>

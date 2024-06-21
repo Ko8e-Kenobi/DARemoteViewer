@@ -72,6 +72,7 @@ namespace DARemoteViewer.WPF.ViewModel
         private ICommand _addConnectionCommand;
         private ICommand _removeConnectionCommand;
         private VoidCommandBase _startServiceCommand;
+        private VoidCommandBase _stopServiceCommand;
         private bool connectionIsSelected = false;
         private ObservableCollection<IQuery<Config,string>> queries;
         private ObservableCollection<IService<CommandBase>> services;
@@ -164,7 +165,7 @@ namespace DARemoteViewer.WPF.ViewModel
         }
         private void LoadConfigCommand_Execute()
         {
-            string fileName = StaticMethods.FileDialog("xml");
+            string fileName = StaticMethods.FileDialog("rvcfg");
             var newConfig = LoadConfigService.Execute(fileName);
             newConfig.Name = Path.GetFileName(fileName);
             ActiveConfig = newConfig;
@@ -256,7 +257,6 @@ namespace DARemoteViewer.WPF.ViewModel
             }
             else if (addConnection.IsCanceled)
             {
-                MessageBox.Show("Canceled");
             }
             PopUpAddConnection.Close();
 
@@ -320,6 +320,31 @@ namespace DARemoteViewer.WPF.ViewModel
         {
             var service = SelectedConnection.Services.FirstOrDefault(x => x.Name == serviceName);
             service.Controller.Start();
+            //service.StartEnable = false;
+        }
+        public ICommand StopServiceCommand
+        {
+            get
+            {
+                if (_stopServiceCommand is null)
+                {
+                    _stopServiceCommand = new VoidCommandBase(obj =>
+                    {
+                        if (obj != null)
+                        {
+                            string serviceName = obj as string;
+                            StopServiceCommand_Execute(serviceName);
+                        }
+                    });
+                }
+                return _stopServiceCommand;
+            }
+            // set { _startServiceCommand = value; }
+        }
+        private void StopServiceCommand_Execute(string serviceName)
+        {
+            var service = SelectedConnection.Services.FirstOrDefault(x => x.Name == serviceName);
+            service.Controller.Stop();
             //service.StartEnable = false;
         }
         //private bool StartServiceCommand_CanExecute()

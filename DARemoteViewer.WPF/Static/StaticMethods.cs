@@ -12,7 +12,7 @@ namespace DARemoteViewer.Domain.Services.Static
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
             // Set filter for file extension and default file extension 
-            dlg.DefaultExt = ".txt";
+            dlg.DefaultExt = ".rmcfg";
             dlg.Filter = $"{extension.ToUpper()} Files (*.{extension})|*.{extension}";
 
 
@@ -54,6 +54,8 @@ namespace DARemoteViewer.Domain.Services.Static
         {
             // Create OpenFileDialog 
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.Filter = "RVConfig Files (*.rmcfg)|*.rvcfg";
+            dlg.DefaultExt = "rvcfg";
             bool? result = dlg.ShowDialog();
 
             // Get the selected file name and display in a TextBox 

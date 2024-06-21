@@ -7,7 +7,7 @@
         xmlns:controls="clr-namespace:DARemoteViewer.WPF.Controls"
         
         mc:Ignorable="d"
-        Title="AddConnectionPopUp"  SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="CanResize" MinWidth="550" MinHeight="500" MaxHeight="700">
+        Title="Manage Connection"  SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="CanResize" MinWidth="550" MinHeight="500" MaxHeight="700">
     <Grid HorizontalAlignment="Center" Height="Auto" Margin="5,5,5,5">
         <Frame BorderBrush="Black" BorderThickness="1"/>
         <Grid>

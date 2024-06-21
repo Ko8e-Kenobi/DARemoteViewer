@@ -27,8 +27,15 @@ namespace DARemoteViewer.Domain.Services.Commands.ConfigCommands
             newConfig.fileName = newFileName;
             newConfig.Name = Path.GetFileName(newFileName);
             XmlSerializer xs = new XmlSerializer(typeof(Config));
-            using (TextWriter tw = new StreamWriter(newFileName))
-            { xs.Serialize(tw, newConfig); };
+            try
+            {
+                using (TextWriter tw = new StreamWriter(newFileName))
+                { xs.Serialize(tw, newConfig); };
+            }
+            catch (Exception)
+            {
+            }
+
         }
     }
 }

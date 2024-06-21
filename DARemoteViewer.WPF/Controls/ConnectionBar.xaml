@@ -7,39 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="15"/>
-            <ColumnDefinition Width="15"/>
-            <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" Text="{Binding Name}"/>
-        <TextBlock Grid.Column="1" Text="{Binding Id}"/>
-        <Button Grid.Column="2" Content=">" HorizontalAlignment="Right" />
-        <Button Grid.Column="3" Content="O" HorizontalAlignment="Right" />
-        <Button Grid.Column="4" Content="R" HorizontalAlignment="Right" />
+        <TextBlock Text="{Binding Name}"/>
     </Grid>
 </UserControl>
-
-<!--<DataTemplate DataType="{x:Type local:TabFileViewModel}">
-    <StackPanel Orientation="Horizontal">
-        <Image Width="16" Height="16" Margin="3,0">
-            <Image.Style>
-                <Style TargetType="{x:Type Image}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding NotFound}" Value="false">
-                            <Setter Property="Source" Value="Image\plusicon.PNG"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding NotFound}" Value="true">
-                            <Setter Property="Source" Value="Image\minusicon.PNG"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Image.Style>
-        </Image>
-</DataTemplate>--> 

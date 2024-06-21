@@ -6,17 +6,25 @@
              xmlns:local="clr-namespace:DARemoteViewer.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="b2vconv"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
         <Label  Grid.Column="0" Content="{Binding Name}" HorizontalAlignment="Left"/>
         <Label Grid.Column="1" Content="{Binding Status}" HorizontalAlignment="Right" />
+        
         <!--<Button Grid.Column="2" Content="Start" HorizontalAlignment="Right"/>-->
-        <Button Grid.Column="2" Content="Start" HorizontalAlignment="Right" Command="{Binding  Path=DataContext.StartServiceCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding Name}" IsEnabled="{Binding StartEnable}"/>
-        <Button Grid.Column="3" Content="Stop" HorizontalAlignment="Right" IsEnabled="{Binding StopEnable}"/>
+        <Button Grid.Column="2" BorderThickness="0"  HorizontalAlignment="Right" Command="{Binding  Path=DataContext.StartServiceCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding Name}" IsEnabled="{Binding StartEnable}" Visibility="{Binding StartEnable, Converter={StaticResource b2vconv}}">
+            <Image Source="..\Image\startService_25p.png" HorizontalAlignment="Right" />
+        </Button>
+        <Button Grid.Column="3" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding  Path=DataContext.StopServiceCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding Name}" IsEnabled="{Binding StopEnable}" Visibility="{Binding StopEnable, Converter={StaticResource b2vconv}}">
+            <Image Source="..\Image\stopService_25p.png" HorizontalAlignment="Right"/>
+        </Button>
     </Grid>
 </UserControl>

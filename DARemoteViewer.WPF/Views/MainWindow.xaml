@@ -6,17 +6,17 @@
         xmlns:local="clr-namespace:DARemoteViewer.WPF"
         xmlns:controls="clr-namespace:DARemoteViewer.WPF.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Remote Service Viewer" SizeToContent="Manual" Width="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="auto" MinHeight="400"/>
+            <RowDefinition MinHeight="200"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Menu x:Name="menu" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="99">
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="99">
             <MenuItem Header="File">
                 <MenuItem Header="Open" Command="{Binding LoadConfigCommand}"></MenuItem>
                 <MenuItem Header="Save" Command="{Binding UpdateConfigCommand}"></MenuItem>
@@ -29,7 +29,7 @@
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto" MinHeight="200"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -43,7 +43,7 @@
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="25"/>
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="{Binding ActiveConfig.Name}" Margin="0,0,64,0"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="{Binding ActiveConfig.Name}"/>
                 <Button Command="{Binding EditConnectionCommand}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" BorderThickness="2" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
                     <Image Source="..\Image\editIcon_25p.png" HorizontalAlignment="Right"/>
                 </Button>
@@ -54,7 +54,7 @@
                     <Image Source="..\Image\minusicon_25p.png" HorizontalAlignment="Right"/>
                 </Button>
             </Grid>
-            <ListBox Grid.Row="1" Grid.Column="0" Height="auto" ItemsSource="{Binding ActiveConfig.connections}" SelectedItem="{Binding SelectedConnection}" >
+            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding ActiveConfig.connections}" SelectedItem="{Binding SelectedConnection}" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <controls:ConnectionBar Width="auto" HorizontalAlignment="Right"/>
@@ -67,18 +67,23 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition  Width ="Auto"/>
-            </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Content="{Binding SelectedConnection.Name}"/>
-            <ListBox Grid.Row="1" ItemsSource="{Binding SelectedConnection.Services}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" BorderThickness="0">
+            <!--<ListBox Grid.Row="1" Focusable="False" ItemsSource="{Binding SelectedConnection.Services}" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" BorderThickness="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <controls:MainServiceBar/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>
+            </ListBox>-->
+            <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding SelectedConnection.Services}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <controls:MainServiceBar/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </Grid>
-        
     </Grid>
 </Window>
